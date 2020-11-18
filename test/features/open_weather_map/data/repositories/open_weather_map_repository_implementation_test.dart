@@ -1,5 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:mockito/mockito.dart';
+import 'package:open_weather_map/core/error/exceptions.dart';
+import 'package:open_weather_map/core/error/failure.dart';
 import 'package:open_weather_map/features/open_weather_map/data/models/weather_info_model.dart';
 import 'package:open_weather_map/features/open_weather_map/domain/entities/weather_information.dart';
 import 'package:test/test.dart';
@@ -68,6 +70,21 @@ void main() {
         verify(mockRemoteDatasource.getWeatherInfoForCity(tCity));
         expect(result, right(tWeatherInfoModel));
         verifyNoMoreInteractions(mockRemoteDatasource);
+      });
+
+      test(
+          'should return server failure data when the call to remote data source is unsuccessful',
+          () async {
+        // Arrange
+        when(mockRemoteDatasource.getWeatherInfoForCity(any))
+            .thenThrow(ServerException());
+
+        // Act
+        final result = await repository.getWeatherInfoForCity(tCity);
+
+        // Assert
+        verify(mockRemoteDatasource.getWeatherInfoForCity(tCity));
+        expect(result, left(ServerFailure()));
       });
     });
 
