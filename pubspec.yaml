@@ -22,7 +22,7 @@ dependencies:
   get_it: ^5.0.1
 
   # Conectivity services for Android and iOS
-  connectivity: ^2.0.2
+  data_connection_checker: ^0.3.4
 
   # HTTP Client
   http: ^0.12.2
