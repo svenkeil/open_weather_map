@@ -2,6 +2,7 @@ import 'package:dartz/dartz.dart';
 import 'package:mockito/mockito.dart';
 import 'package:open_weather_map/core/error/exceptions.dart';
 import 'package:open_weather_map/core/error/failure.dart';
+import 'package:open_weather_map/features/open_weather_map/data/datasources/local_datasource.dart';
 import 'package:open_weather_map/features/open_weather_map/data/models/weather_info_model.dart';
 import 'package:open_weather_map/features/open_weather_map/domain/entities/weather_information.dart';
 import 'package:test/test.dart';
@@ -13,19 +14,24 @@ import 'package:open_weather_map/features/open_weather_map/data/repositories/ope
 class MockRemoteDatasource extends Mock
     implements OpenWeatherMapRemoteDatasource {}
 
+class MockLocalDatasource extends Mock implements LocalDatasource {}
+
 class MockNetworkInfo extends Mock implements NetworkInfo {}
 
 void main() {
   OpenWeatherMapRepositoryImplementation repository;
   MockRemoteDatasource mockRemoteDatasource;
+  MockLocalDatasource mockLocalDatasource;
   MockNetworkInfo mockNetworkInfo;
 
   setUp(() {
     mockRemoteDatasource = MockRemoteDatasource();
     mockNetworkInfo = MockNetworkInfo();
+    mockLocalDatasource = MockLocalDatasource();
 
     repository = OpenWeatherMapRepositoryImplementation(
       remoteDatasource: mockRemoteDatasource,
+      localDatasource: mockLocalDatasource,
       networkInfo: mockNetworkInfo,
     );
   });
@@ -70,6 +76,22 @@ void main() {
         verify(mockRemoteDatasource.getWeatherInfoForCity(tCity));
         expect(result, right(tWeatherInfoModel));
         verifyNoMoreInteractions(mockRemoteDatasource);
+      });
+
+      test(
+          'should cache data locally when the call to remote data source is successful',
+          () async {
+        // Arrange
+        when(mockRemoteDatasource.getWeatherInfoForCity(any))
+            .thenAnswer((_) async => tWeatherInfoModel);
+
+        // Act
+        final result = await repository.getWeatherInfoForCity(tCity);
+
+        // Assert
+        verify(mockRemoteDatasource.getWeatherInfoForCity(tCity));
+        verify(mockLocalDatasource.cacheWeatherInfo(tWeatherInfoModel));
+        expect(result, right(tWeatherInfoModel));
       });
 
       test(
