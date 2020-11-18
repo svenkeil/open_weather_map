@@ -130,6 +130,22 @@ void main() {
         expect(result, right(tWeatherInfoModel));
         verifyNoMoreInteractions(mockLocalDatasource);
       });
+
+      test('should return CacheFailure when there is not cached data',
+          () async {
+        // Arrange
+        when(mockLocalDatasource.getLastCachedWeatherInfo())
+            .thenThrow(CacheException());
+
+        // Act
+        final result = await repository.getWeatherInfoForCity(tCity);
+
+        // Assert
+        verifyZeroInteractions(mockRemoteDatasource);
+        verify(mockLocalDatasource.getLastCachedWeatherInfo());
+        expect(result, left(CacheFailure()));
+        verifyNoMoreInteractions(mockLocalDatasource);
+      });
     });
   });
 }

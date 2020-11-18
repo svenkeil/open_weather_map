@@ -33,8 +33,12 @@ class OpenWeatherMapRepositoryImplementation extends OpenWeatherMapRepository {
         return left(ServerFailure());
       }
     } else {
-      final result = await localDatasource.getLastCachedWeatherInfo();
-      return right(result);
+      try {
+        final result = await localDatasource.getLastCachedWeatherInfo();
+        return right(result);
+      } on CacheException {
+        return left(CacheFailure());
+      }
     }
   }
 }
