@@ -22,4 +22,19 @@ class WeatherInfoModel extends WeatherInformation {
         currentTemperature: json['main']['temp'],
         weatherDescription: json['weather'][0]['description'],
       );
+
+  Map<String, dynamic> toJSON() => {
+        'name': cityName,
+        'sys': {
+          'country': country,
+        },
+        'main': {
+          {'temp': currentTemperature}
+        },
+        'weather': [
+          {
+            'description': weatherDescription,
+          }
+        ],
+      };
 }
