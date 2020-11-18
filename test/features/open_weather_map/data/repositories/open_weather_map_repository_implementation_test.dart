@@ -7,7 +7,7 @@ import 'package:open_weather_map/features/open_weather_map/data/models/weather_i
 import 'package:open_weather_map/features/open_weather_map/domain/entities/weather_information.dart';
 import 'package:test/test.dart';
 
-import 'package:open_weather_map/core/platform/network_info.dart';
+import 'package:open_weather_map/core/network/network_info.dart';
 import 'package:open_weather_map/features/open_weather_map/data/datasources/open_weather_map_remote_datasource.dart';
 import 'package:open_weather_map/features/open_weather_map/data/repositories/open_weather_map_repository_implementation.dart';
 
