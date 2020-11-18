@@ -31,7 +31,7 @@ void main() {
         .thenAnswer((_) async => right(tWeatherInformation));
 
     // Act
-    final result = await usecase(cityName: tCity);
+    final result = await usecase(Params(cityName: tCity));
 
     // Assert
     expect(result, right(tWeatherInformation));
