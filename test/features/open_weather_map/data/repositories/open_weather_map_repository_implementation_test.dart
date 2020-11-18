@@ -114,6 +114,22 @@ void main() {
       setUp(() {
         when(mockNetworkInfo.hasActiveNetwork).thenAnswer((_) async => false);
       });
+
+      test('should return last locally cached data when cached data is present',
+          () async {
+        // Arrange
+        when(mockLocalDatasource.getLastCachedWeatherInfo())
+            .thenAnswer((_) async => tWeatherInfoModel);
+
+        // Act
+        final result = await repository.getWeatherInfoForCity(tCity);
+
+        // Assert
+        verifyZeroInteractions(mockRemoteDatasource);
+        verify(mockLocalDatasource.getLastCachedWeatherInfo());
+        expect(result, right(tWeatherInfoModel));
+        verifyNoMoreInteractions(mockLocalDatasource);
+      });
     });
   });
 }
