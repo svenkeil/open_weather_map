@@ -29,7 +29,7 @@ class WeatherInfoModel extends WeatherInformation {
           'country': country,
         },
         'main': {
-          {'temp': currentTemperature}
+          'temp': currentTemperature,
         },
         'weather': [
           {
