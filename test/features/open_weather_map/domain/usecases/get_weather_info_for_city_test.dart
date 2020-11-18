@@ -12,6 +12,7 @@ class MockOpenWeatherMapRepository extends Mock
 void main() {
   GetWeatherInfoForCity usecase;
   OpenWeatherMapRepository mockOpenWeatherMapRepository;
+
   setUp(() {
     mockOpenWeatherMapRepository = MockOpenWeatherMapRepository();
     usecase = GetWeatherInfoForCity(mockOpenWeatherMapRepository);

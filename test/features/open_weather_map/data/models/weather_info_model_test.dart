@@ -1,6 +1,7 @@
+import 'package:test/test.dart';
+
 import 'package:open_weather_map/features/open_weather_map/data/models/weather_info_model.dart';
 import 'package:open_weather_map/features/open_weather_map/domain/entities/weather_information.dart';
-import 'package:test/test.dart';
 
 import '../response_mock/city_info_mock.dart';
 
@@ -26,5 +27,10 @@ void main() {
 
     // Assert
     expect(result, tWeatherInfoModel);
+  });
+
+  test('should be a subclass of WeatherInformation entity', () async {
+    // Assert
+    expect(tWeatherInfoModel, isA<WeatherInformation>());
   });
 }
