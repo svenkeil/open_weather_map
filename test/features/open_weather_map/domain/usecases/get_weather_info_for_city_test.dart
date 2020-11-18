@@ -1,9 +1,9 @@
 import 'package:dartz/dartz.dart';
 import 'package:mockito/mockito.dart';
-import 'package:open_weather_map/features/open_weather_map/domain/entities/weather_information.dart';
-import 'package:open_weather_map/features/open_weather_map/domain/usecases/get_weather_info_for_city.dart';
 import 'package:test/test.dart';
 
+import 'package:open_weather_map/features/open_weather_map/domain/entities/weather_information.dart';
+import 'package:open_weather_map/features/open_weather_map/domain/usecases/get_weather_info_for_city.dart';
 import 'package:open_weather_map/features/open_weather_map/domain/repositories/open_weather_map_repository.dart';
 
 class MockOpenWeatherMapRepository extends Mock
