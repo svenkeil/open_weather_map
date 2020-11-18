@@ -21,8 +21,8 @@ void main() {
   final tWeatherInformation = WeatherInformation(
     cityName: 'Fortaleza',
     country: 'BR',
-    currentTemperature: 28.0,
-    weatherDescription: 'Very hot',
+    currentTemperature: 27.66,
+    weatherDescription: 'broken clouds',
   );
 
   test('should get weather information for city from the repository', () async {

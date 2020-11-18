@@ -14,4 +14,12 @@ class WeatherInfoModel extends WeatherInformation {
           currentTemperature: currentTemperature,
           weatherDescription: weatherDescription,
         );
+
+  factory WeatherInfoModel.fromJSON(Map<String, dynamic> json) =>
+      WeatherInfoModel(
+        cityName: json['name'],
+        country: json['sys']['country'],
+        currentTemperature: json['main']['temp'],
+        weatherDescription: json['weather'][0]['description'],
+      );
 }
