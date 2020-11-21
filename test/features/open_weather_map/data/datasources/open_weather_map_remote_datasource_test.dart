@@ -19,6 +19,15 @@ void main() {
     remoteDatasource = OpenWeatherMapRemoteDatasourceImplementation(httpClient);
   });
 
+  void succesfulResponse() {
+    when(httpClient.get(any)).thenAnswer(
+      (_) async => HttpResponse(
+        data: apiResponse,
+        statusCode: 200,
+      ),
+    );
+  }
+
   group('getWeatherInfoForCity', () {
     String tCity;
 
@@ -31,12 +40,7 @@ void main() {
       final endpoint =
           'http://api.openweathermap.org/data/2.5/weather?q=$tCity&units=metric&appid=$kAPIKey';
 
-      when(httpClient.get(any)).thenAnswer(
-        (_) async => HttpResponse(
-          data: apiResponse,
-          statusCode: 200,
-        ),
-      );
+      succesfulResponse();
 
       // Act
       await remoteDatasource.getWeatherInfoForCity(tCity);
@@ -54,12 +58,7 @@ void main() {
           currentTemperature: 27.66,
           weatherDescription: 'broken clouds');
 
-      when(httpClient.get(any)).thenAnswer(
-        (_) async => HttpResponse(
-          data: apiResponse,
-          statusCode: 200,
-        ),
-      );
+      succesfulResponse();
 
       // Act
       final result = await remoteDatasource.getWeatherInfoForCity(tCity);
