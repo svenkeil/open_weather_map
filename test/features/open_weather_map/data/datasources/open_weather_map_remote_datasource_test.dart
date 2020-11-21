@@ -39,7 +39,8 @@ void main() {
       verify(httpClient.get(endpoint));
     });
 
-    test('should return WeatherInfoModel from response', () async {
+    test('should return WeatherInfoModel from response if status code is 200',
+        () async {
       // Arrange
       final tCity = 'Fortaleza';
       final tWeatherInfoModel = WeatherInfoModel(

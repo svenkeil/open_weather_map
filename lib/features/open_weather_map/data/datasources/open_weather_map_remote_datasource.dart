@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:open_weather_map/core/endpoints/endpoints.dart';
+import 'package:open_weather_map/core/error/exceptions.dart';
 import 'package:open_weather_map/core/http_client/http_client.dart';
 
 import '../models/weather_info_model.dart';
@@ -23,6 +24,11 @@ class OpenWeatherMapRemoteDatasourceImplementation
     final response =
         await httpClient.get(Endpoints.getWeatherInfoForCity(cityName));
 
-    return WeatherInfoModel.fromJSON(response.data);
+    switch (response.statusCode) {
+      case 200:
+        return WeatherInfoModel.fromJSON(response.data);
+      default:
+        throw ServerException();
+    }
   }
 }
