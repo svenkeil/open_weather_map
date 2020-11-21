@@ -38,5 +38,16 @@ void main() {
       verify(mockSharedPreferences.getString(kCachedWeatherInfo));
       expect(result, tWeatherInfoModel);
     });
+
+    test('should throw CacheException when there is not cached data', () {
+      // Arrange
+      when(mockSharedPreferences.getString(any)).thenReturn(null);
+
+      // Act
+      final call = localDatasource.getLastCachedWeatherInfo;
+
+      // Assert
+      expect(() => call(), throwsA(TypeMatcher<CacheException>()));
+    });
   });
 }

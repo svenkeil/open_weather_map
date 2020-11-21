@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:meta/meta.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../../../core/error/exceptions.dart';
 import '../models/weather_info_model.dart';
 
 abstract class LocalDatasource {
@@ -22,7 +23,11 @@ class LocalDatasourceImplementation implements LocalDatasource {
   Future<WeatherInfoModel> getLastCachedWeatherInfo() {
     final cachedWeather = sharedPreferences.getString(kCachedWeatherInfo);
 
-    return Future.value(WeatherInfoModel.fromJSON(jsonDecode(cachedWeather)));
+    if (cachedWeather != null) {
+      return Future.value(WeatherInfoModel.fromJSON(jsonDecode(cachedWeather)));
+    } else {
+      throw CacheException();
+    }
   }
 
   @override
