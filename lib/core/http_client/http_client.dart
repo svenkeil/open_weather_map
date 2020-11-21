@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:dio/dio.dart';
 import 'package:meta/meta.dart';
 
@@ -18,6 +20,9 @@ class HttpClientImplementation implements HttpClient {
   @override
   Future<HttpResponse> get(String url) async {
     final response = await _httpClient.get(url);
-    return HttpResponse(data: response.data, statusCode: response.statusCode);
+    return HttpResponse(
+      data: jsonDecode(response.data),
+      statusCode: response.statusCode,
+    );
   }
 }

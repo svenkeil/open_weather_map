@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:open_weather_map/core/endpoints/endpoints.dart';
 import 'package:open_weather_map/core/http_client/http_client.dart';
 
@@ -17,7 +19,10 @@ class OpenWeatherMapRemoteDatasourceImplementation
   OpenWeatherMapRemoteDatasourceImplementation(this.httpClient);
 
   @override
-  Future<WeatherInfoModel> getWeatherInfoForCity(String cityName) {
-    httpClient.get(Endpoints.getWeatherInfoForCity(cityName));
+  Future<WeatherInfoModel> getWeatherInfoForCity(String cityName) async {
+    final response =
+        await httpClient.get(Endpoints.getWeatherInfoForCity(cityName));
+
+    return WeatherInfoModel.fromJSON(response.data);
   }
 }
