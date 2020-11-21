@@ -32,7 +32,7 @@ dependencies:
   data_connection_checker: ^0.3.4
 
   # HTTP Client
-  dio: ^3.0.10
+  http: ^0.12.2
 
   # Cache solution
   shared_preferences: ^0.5.12+4
