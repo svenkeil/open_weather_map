@@ -51,7 +51,7 @@ void main() {
       when(mockNetworkInfo.hasActiveNetwork).thenAnswer((_) async => true);
 
       // Act
-      final result = await repository.getWeatherInfoForCity(tCity);
+      await repository.getWeatherInfoForCity(tCity);
 
       // Assert
       verify(mockNetworkInfo.hasActiveNetwork);

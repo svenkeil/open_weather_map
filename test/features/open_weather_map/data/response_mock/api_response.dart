@@ -1,7 +1,4 @@
-// 20201117222347
-// http://api.openweathermap.org/data/2.5/weather?q=Fortaleza&units=metric&appid={apiKey}
-
-const cityInfoMock = {
+const apiResponse = {
   "coord": {"lon": -38.52, "lat": -3.72},
   "weather": [
     {"id": 803, "main": "Clouds", "description": "broken clouds", "icon": "04n"}
