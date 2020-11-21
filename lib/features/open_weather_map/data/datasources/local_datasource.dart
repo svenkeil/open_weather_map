@@ -32,9 +32,7 @@ class LocalDatasourceImplementation implements LocalDatasource {
 
   @override
   Future<void> cacheWeatherInfo(WeatherInfoModel weatherInfo) {
-    // TODO: implement cacheWeatherInfo
-
-    // sharedPreferences.set
-    throw UnimplementedError();
+    return sharedPreferences.setString(
+        kCachedWeatherInfo, jsonEncode(weatherInfo.toJSON()));
   }
 }

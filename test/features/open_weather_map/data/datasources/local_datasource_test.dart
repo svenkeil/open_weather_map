@@ -50,4 +50,21 @@ void main() {
       expect(() => call(), throwsA(TypeMatcher<CacheException>()));
     });
   });
+
+  group('cacheWeatherInfo', () {
+    test('should call SharedPreferences to cache data', () {
+      final tWeatherInfoModel = WeatherInfoModel(
+          cityName: 'Fortaleza',
+          country: 'BR',
+          currentTemperature: 27.66,
+          weatherDescription: 'broken clouds');
+
+      // Act
+      localDatasource.cacheWeatherInfo(tWeatherInfoModel);
+
+      // Assert
+      final encodedJSON = jsonEncode(tWeatherInfoModel.toJSON());
+      verify(mockSharedPreferences.setString(kCachedWeatherInfo, encodedJSON));
+    });
+  });
 }
