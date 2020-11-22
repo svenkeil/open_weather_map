@@ -1,7 +1,5 @@
-import 'dart:convert';
-
-import 'package:dio/dio.dart';
 import 'package:meta/meta.dart';
+import 'package:http/http.dart' as http;
 
 abstract class HttpClient {
   Future<HttpResponse> get(String url);
@@ -15,13 +13,14 @@ class HttpResponse {
 }
 
 class HttpClientImplementation implements HttpClient {
-  final _httpClient = Dio();
+  final _httpClient = http.Client();
 
   @override
   Future<HttpResponse> get(String url) async {
     final response = await _httpClient.get(url);
+
     return HttpResponse(
-      data: jsonDecode(response.data),
+      data: response.body,
       statusCode: response.statusCode,
     );
   }

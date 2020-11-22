@@ -1,6 +1,8 @@
 import '../config/api_key.dart';
 
+const kAPIHost = 'http://api.openweathermap.org/';
+
 class Endpoints {
   static String getWeatherInfoForCity(String cityName) =>
-      'http://api.openweathermap.org/data/2.5/weather?q=$cityName&units=metric&appid=$kAPIKey';
+      'data/2.5/weather?q=$cityName&units=metric&appid=$kAPIKey';
 }

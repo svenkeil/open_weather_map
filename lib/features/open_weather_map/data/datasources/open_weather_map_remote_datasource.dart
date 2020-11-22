@@ -21,12 +21,12 @@ class OpenWeatherMapRemoteDatasourceImplementation
 
   @override
   Future<WeatherInfoModel> getWeatherInfoForCity(String cityName) async {
-    final response =
-        await httpClient.get(Endpoints.getWeatherInfoForCity(cityName));
+    final response = await httpClient
+        .get(kAPIHost + Endpoints.getWeatherInfoForCity(cityName));
 
     switch (response.statusCode) {
       case 200:
-        return WeatherInfoModel.fromJSON(response.data);
+        return WeatherInfoModel.fromJSON(jsonDecode(response.data));
       default:
         throw ServerException();
     }

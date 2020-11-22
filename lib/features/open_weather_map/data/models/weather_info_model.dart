@@ -19,7 +19,7 @@ class WeatherInfoModel extends WeatherInformation {
       WeatherInfoModel(
         cityName: json['name'],
         country: json['sys']['country'],
-        currentTemperature: json['main']['temp'],
+        currentTemperature: double.tryParse(json['main']['temp'].toString()),
         weatherDescription: json['weather'][0]['description'],
       );
 

@@ -1,13 +1,21 @@
 import 'package:flutter/material.dart';
 
-void main() => runApp(MyApp());
+import 'dependency_injection.dart';
+import 'features/open_weather_map/presentation/pages/home_page.dart';
 
-class MyApp extends StatelessWidget {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await init();
+  runApp(OpenWeatherMap());
+}
+
+class OpenWeatherMap extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'OpenWeatherMap',
-      home: Scaffold(),
+      debugShowCheckedModeBanner: false,
+      home: HomePage(),
     );
   }
 }
