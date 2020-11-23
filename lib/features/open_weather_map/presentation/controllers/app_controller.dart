@@ -1,5 +1,5 @@
 import 'package:mobx/mobx.dart';
-import 'package:open_weather_map/features/open_weather_map/domain/usecases/get_weather_info_for_city.dart';
+import '../../domain/usecases/get_weather_info_for_city.dart';
 
 import '../../../../core/util/extensions.dart';
 
@@ -24,6 +24,9 @@ abstract class _AppControllerBase with Store {
   @observable
   String weatherDescription;
 
+  @observable
+  bool hasError = false;
+
   @computed
   bool get hasData =>
       currentTemperature != null &&
@@ -35,13 +38,13 @@ abstract class _AppControllerBase with Store {
   Future<void> getWeatherInfoForCity(String cityName) async {
     final result = await _usecase(Params(cityName: cityName));
 
-    result.fold((l) => null, (r) {
+    result.fold((l) => hasError = true, (r) {
       country = r.country;
       city = r.cityName;
       currentTemperature = r.currentTemperature;
       weatherDescription = r.weatherDescription;
 
-      print(city);
+      hasError = false;
     });
   }
 }

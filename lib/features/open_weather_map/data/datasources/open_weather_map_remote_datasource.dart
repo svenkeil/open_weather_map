@@ -1,9 +1,8 @@
 import 'dart:convert';
 
-import 'package:open_weather_map/core/endpoints/endpoints.dart';
-import 'package:open_weather_map/core/error/exceptions.dart';
-import 'package:open_weather_map/core/http_client/http_client.dart';
-
+import '../../../../core/endpoints/endpoints.dart';
+import '../../../../core/error/exceptions.dart';
+import '../../../../core/http_client/http_client.dart';
 import '../models/weather_info_model.dart';
 
 abstract class OpenWeatherMapRemoteDatasource {
@@ -21,8 +20,8 @@ class OpenWeatherMapRemoteDatasourceImplementation
 
   @override
   Future<WeatherInfoModel> getWeatherInfoForCity(String cityName) async {
-    final response = await httpClient
-        .get(kAPIHost + Endpoints.getWeatherInfoForCity(cityName));
+    final response =
+        await httpClient.get(Endpoints.getWeatherInfoForCity(cityName));
 
     switch (response.statusCode) {
       case 200:

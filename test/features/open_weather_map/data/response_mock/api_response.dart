@@ -1,4 +1,4 @@
-const apiResponse = {
+const apiResponse = '''{
   "coord": {"lon": -38.52, "lat": -3.72},
   "weather": [
     {"id": 803, "main": "Clouds", "description": "broken clouds", "icon": "04n"}
@@ -27,4 +27,4 @@ const apiResponse = {
   "id": 6320062,
   "name": "Fortaleza",
   "cod": 200
-};
+}''';

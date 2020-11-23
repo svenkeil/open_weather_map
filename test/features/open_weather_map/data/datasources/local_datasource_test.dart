@@ -23,13 +23,13 @@ void main() {
   });
 
   group('getLastCachedWeatherInfo', () {
-    final tWeatherInfoModel = WeatherInfoModel.fromJSON(cachedReponse);
+    final tWeatherInfoModel =
+        WeatherInfoModel.fromJSON(jsonDecode(cachedReponse));
 
     test('should return the last cached weather info when there is one cached',
         () async {
       // Arrange
-      when(mockSharedPreferences.getString(any))
-          .thenReturn(jsonEncode(cachedReponse));
+      when(mockSharedPreferences.getString(any)).thenReturn(cachedReponse);
 
       // Act
       final result = await localDatasource.getLastCachedWeatherInfo();

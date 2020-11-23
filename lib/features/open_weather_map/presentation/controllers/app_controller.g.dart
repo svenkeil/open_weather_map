@@ -78,6 +78,21 @@ mixin _$AppController on _AppControllerBase, Store {
     });
   }
 
+  final _$hasErrorAtom = Atom(name: '_AppControllerBase.hasError');
+
+  @override
+  bool get hasError {
+    _$hasErrorAtom.reportRead();
+    return super.hasError;
+  }
+
+  @override
+  set hasError(bool value) {
+    _$hasErrorAtom.reportWrite(value, super.hasError, () {
+      super.hasError = value;
+    });
+  }
+
   final _$getWeatherInfoForCityAsyncAction =
       AsyncAction('_AppControllerBase.getWeatherInfoForCity');
 
@@ -94,6 +109,7 @@ currentTemperature: ${currentTemperature},
 city: ${city},
 country: ${country},
 weatherDescription: ${weatherDescription},
+hasError: ${hasError},
 hasData: ${hasData}
     ''';
   }

@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
-import 'package:open_weather_map/features/open_weather_map/presentation/controllers/app_controller.dart';
 import 'package:unicons/unicons.dart';
+
 import '../../../../core/util/extensions.dart';
+import '../controllers/app_controller.dart';
 
 class HomePage extends StatelessWidget {
   var _textController = TextEditingController();
@@ -63,8 +64,12 @@ class HomePage extends StatelessWidget {
                       ],
                     ),
                     _appController.hasData
-                        ? WeatherInformation(appController: _appController)
-                        : EmptyWeatherInformation(),
+                        ? WeatherInformation(
+                            appController: _appController,
+                          )
+                        : EmptyWeatherInformation(
+                            appController: _appController,
+                          ),
                   ],
                 ),
               ),
@@ -77,22 +82,32 @@ class HomePage extends StatelessWidget {
 }
 
 class EmptyWeatherInformation extends StatelessWidget {
+  const EmptyWeatherInformation({
+    Key key,
+    @required AppController appController,
+  })  : _appController = appController,
+        super(key: key);
+
+  final AppController _appController;
+
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        SizedBox(height: 200.0),
-        Text(
-          'No data avaliable',
-          style: Theme.of(context)
-              .textTheme
-              .headline4
-              .copyWith(color: Colors.grey[800]),
-        )
-      ],
-    );
+    return Observer(builder: (_) {
+      return Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          SizedBox(height: 200.0),
+          Text(
+            _appController.hasError ? 'An error ocurred' : 'No data avaliable',
+            style: Theme.of(context)
+                .textTheme
+                .headline4
+                .copyWith(color: Colors.grey[800]),
+          )
+        ],
+      );
+    });
   }
 }
 

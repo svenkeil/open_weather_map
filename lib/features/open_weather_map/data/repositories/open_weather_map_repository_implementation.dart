@@ -1,13 +1,12 @@
 import 'package:dartz/dartz.dart';
 import 'package:meta/meta.dart';
 
-import 'package:open_weather_map/core/error/exceptions.dart';
-import 'package:open_weather_map/features/open_weather_map/data/datasources/local_datasource.dart';
-
+import '../../../../core/error/exceptions.dart';
 import '../../../../core/error/failure.dart';
 import '../../../../core/network/network_info.dart';
 import '../../domain/entities/weather_information.dart';
 import '../../domain/repositories/open_weather_map_repository.dart';
+import '../datasources/local_datasource.dart';
 import '../datasources/open_weather_map_remote_datasource.dart';
 
 class OpenWeatherMapRepositoryImplementation extends OpenWeatherMapRepository {

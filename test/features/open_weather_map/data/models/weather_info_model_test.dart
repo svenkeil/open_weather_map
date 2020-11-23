@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:test/test.dart';
 
 import 'package:open_weather_map/features/open_weather_map/data/models/weather_info_model.dart';
@@ -25,7 +27,7 @@ void main() {
       final json = apiResponse;
 
       // Act
-      final result = WeatherInfoModel.fromJSON(json);
+      final result = WeatherInfoModel.fromJSON(jsonDecode(json));
 
       // Assert
       expect(result, tWeatherInfoModel);
@@ -33,7 +35,7 @@ void main() {
 
     test('should return a valid json from a model', () {
       // Arrange
-      final json = cachedReponse;
+      final json = jsonDecode(cachedReponse);
 
       // Act
       final result = tWeatherInfoModel.toJSON();

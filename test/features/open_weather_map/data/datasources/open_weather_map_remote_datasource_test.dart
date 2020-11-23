@@ -38,7 +38,7 @@ void main() {
     test('should call GET method from httpClient with correct URL', () async {
       // Arrange
       final endpoint =
-          'http://api.openweathermap.org/data/2.5/weather?q=$tCity&units=metric&appid=$kAPIKey';
+          'https://api.openweathermap.org/data/2.5/weather?q=$tCity&units=metric&appid=$kAPIKey';
 
       succesfulResponse();
 
