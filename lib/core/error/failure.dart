@@ -13,3 +13,8 @@ class CacheFailure extends Failure {
   @override
   List<Object> get props => const <dynamic>[];
 }
+
+class CityNameFailure extends Failure {
+  @override
+  List<Object> get props => const <dynamic>[];
+}

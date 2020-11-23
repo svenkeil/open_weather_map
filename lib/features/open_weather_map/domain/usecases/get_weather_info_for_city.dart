@@ -13,7 +13,11 @@ class GetWeatherInfoForCity implements Usecase<WeatherInformation, Params> {
   GetWeatherInfoForCity(this.repository);
 
   Future<Either<Failure, WeatherInformation>> call(Params params) async {
-    return await repository.getWeatherInfoForCity(params.cityName);
+    if (params.cityName != null && params.cityName != '') {
+      return await repository.getWeatherInfoForCity(params.cityName);
+    }
+
+    return left(CityNameFailure());
   }
 }
 
