@@ -4,7 +4,6 @@ import 'package:open_weather_map/core/error/exceptions.dart';
 import 'package:open_weather_map/core/error/failure.dart';
 import 'package:open_weather_map/features/open_weather_map/data/datasources/local_datasource.dart';
 import 'package:open_weather_map/features/open_weather_map/data/models/weather_info_model.dart';
-import 'package:open_weather_map/features/open_weather_map/domain/entities/weather_information.dart';
 import 'package:test/test.dart';
 
 import 'package:open_weather_map/core/network/network_info.dart';
@@ -45,7 +44,6 @@ void main() {
       weatherDescription: 'broken clouds',
     );
 
-    final WeatherInformation tWeatherInformation = tWeatherInfoModel;
     test('should check if the device has ative connection', () async {
       // Arrange
       when(mockNetworkInfo.hasActiveNetwork).thenAnswer((_) async => true);

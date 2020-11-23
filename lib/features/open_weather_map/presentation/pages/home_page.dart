@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
-import 'package:unicons/unicons.dart';
 
-import '../../../../core/util/extensions.dart';
 import '../controllers/app_controller.dart';
+import '../widgets/empty_weather_information.dart';
+import '../widgets/search_field.dart';
+import '../widgets/weather_information.dart';
 
 class HomePage extends StatelessWidget {
-  var _textController = TextEditingController();
+  final _textController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
-    var _appController = GetIt.I.get<AppController>();
+    final _appController = GetIt.I.get<AppController>();
 
     return Observer(
       builder: (_) {
@@ -25,132 +26,35 @@ class HomePage extends StatelessWidget {
           },
           child: Scaffold(
             appBar: AppBar(
-                title: Text(
-              'Open Weather Map',
-            )),
+              brightness: Brightness.dark,
+              title: Text(
+                'Open Weather Map',
+                style: Theme.of(context)
+                    .textTheme
+                    .headline6
+                    .copyWith(color: Colors.white),
+              ),
+            ),
             body: Container(
-              width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height,
               padding: const EdgeInsets.all(16.0),
               child: SingleChildScrollView(
-                physics: NeverScrollableScrollPhysics(),
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    Row(
-                      children: [
-                        Expanded(
-                          child: TextField(
-                            controller: _textController,
-                            decoration: InputDecoration(
-                              hintText: 'Type a city name here',
-                              hintStyle: Theme.of(context)
-                                  .textTheme
-                                  .subtitle1
-                                  .copyWith(color: Colors.grey[800]),
-                            ),
-                          ),
-                        ),
-                        GestureDetector(
-                          onTap: () async {
-                            await _appController
-                                .getWeatherInfoForCity(_textController.text);
-                          },
-                          child: Padding(
-                            padding: const EdgeInsets.only(left: 16.0),
-                            child: Icon(UniconsLine.search),
-                          ),
-                        ),
-                      ],
+                    SearchField(
+                      textController: _textController,
+                      appController: _appController,
                     ),
                     _appController.hasData
-                        ? WeatherInformation(
-                            appController: _appController,
-                          )
+                        ? WeatherInformationWidget(
+                            appController: _appController)
                         : EmptyWeatherInformation(
-                            appController: _appController,
-                          ),
+                            appController: _appController),
                   ],
                 ),
               ),
             ),
           ),
-        );
-      },
-    );
-  }
-}
-
-class EmptyWeatherInformation extends StatelessWidget {
-  const EmptyWeatherInformation({
-    Key key,
-    @required AppController appController,
-  })  : _appController = appController,
-        super(key: key);
-
-  final AppController _appController;
-
-  @override
-  Widget build(BuildContext context) {
-    return Observer(builder: (_) {
-      return Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          SizedBox(height: 200.0),
-          Text(
-            _appController.hasError ? 'An error ocurred' : 'No data avaliable',
-            style: Theme.of(context)
-                .textTheme
-                .headline4
-                .copyWith(color: Colors.grey[800]),
-          )
-        ],
-      );
-    });
-  }
-}
-
-class WeatherInformation extends StatelessWidget {
-  const WeatherInformation({
-    Key key,
-    @required AppController appController,
-  })  : _appController = appController,
-        super(key: key);
-
-  final AppController _appController;
-
-  @override
-  Widget build(BuildContext context) {
-    return Observer(
-      builder: (_) {
-        return Column(
-          children: [
-            SizedBox(height: 120.0),
-            Text(
-              '${_appController.city}',
-              style: Theme.of(context)
-                  .textTheme
-                  .headline4
-                  .copyWith(color: Colors.grey[800]),
-            ),
-            SizedBox(height: 15.0),
-            Text(
-              '${_appController.currentTemperature.toInt()}ºC',
-              style: Theme.of(context)
-                  .textTheme
-                  .headline1
-                  .copyWith(color: Colors.grey[800]),
-            ),
-            SizedBox(height: 15.0),
-            Text(
-              _appController.weatherDescription.capitalize(),
-              style: Theme.of(context)
-                  .textTheme
-                  .headline5
-                  .copyWith(color: Colors.grey[800]),
-            ),
-          ],
         );
       },
     );

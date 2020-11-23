@@ -1,5 +1,5 @@
-import 'package:meta/meta.dart';
 import 'package:http/http.dart' as http;
+import 'package:meta/meta.dart';
 
 abstract class HttpClient {
   Future<HttpResponse> get(String url);
