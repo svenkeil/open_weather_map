@@ -8,10 +8,23 @@ version: 1.0.0+1
 environment:
   sdk: ">=2.7.0 <3.0.0"
 
+## Slidy Scripts 
+vars:
+    clean: flutter clean
+    get: flutter pub get
+    runner: flutter pub run build_runner
+scripts: 
+    mobx_build: $runner build
+    mobx_watch: $clean & $get & $runner watch
+    mobx_build_clean: $clean & $get & $runner build --delete-conflicting-outputs
+
 dependencies:
   flutter:
     sdk: flutter
   
+  # Project structure
+  flutter_modular: ^2.0.1
+
   # UI
   unicons: ^1.0.0+5
 
@@ -44,6 +57,7 @@ dev_dependencies:
   # Code generation
   mobx_codegen: ^1.1.2
   build_runner: ^1.10.6
+  modular_codegen: any
 
   # Dart package for tests
   test: ^1.15.5
