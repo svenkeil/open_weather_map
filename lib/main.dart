@@ -1,23 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:open_weather_map/features/open_weather_map/presentation/theme/theme.dart';
+import 'package:flutter_modular/flutter_modular.dart';
 
-import 'dependency_injection.dart';
-import 'features/open_weather_map/presentation/pages/home_page.dart';
+import 'app/app_module.dart';
 
-Future<void> main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await init();
-  runApp(OpenWeatherMap());
-}
-
-class OpenWeatherMap extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'OpenWeatherMap',
-      theme: appTheme,
-      debugShowCheckedModeBanner: false,
-      home: HomePage(),
-    );
-  }
-}
+void main() => runApp(ModularApp(module: AppModule()));

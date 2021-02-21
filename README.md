@@ -1,6 +1,6 @@
 # open_weather_map
 
-A new Flutter project.
+A new Flutter project. Created by Slidy
 
 ## Getting Started
 
