@@ -1,6 +1,4 @@
 import 'package:dartz/dartz.dart';
-import 'package:flutter_modular/flutter_modular.dart';
-import 'package:meta/meta.dart';
 
 import '../../../../core/error/exceptions.dart';
 import '../../../../core/error/failure.dart';
