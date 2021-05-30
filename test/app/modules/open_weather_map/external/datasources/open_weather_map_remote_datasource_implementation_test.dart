@@ -1,11 +1,12 @@
 import 'package:mockito/mockito.dart';
+import 'package:test/test.dart';
+
 import 'package:open_weather_map/app/core/config/api_key.dart';
 import 'package:open_weather_map/app/core/error/exceptions.dart';
 import 'package:open_weather_map/app/core/http_client/http_client.dart';
 import 'package:open_weather_map/app/modules/open_weather_map/external/datasources/open_weather_map_remote_datasource_implementation.dart';
-import 'package:open_weather_map/app/modules/open_weather_map/external/models/weather_info_model.dart';
 import 'package:open_weather_map/app/modules/open_weather_map/infrastructure/datasources/open_weather_map_remote_datasource.dart';
-import 'package:test/test.dart';
+import 'package:open_weather_map/app/modules/open_weather_map/infrastructure/models/weather_info_model.dart';
 
 import '../response_mock/api_response.dart';
 
@@ -38,8 +39,7 @@ void main() {
 
     test('should call GET method from httpClient with correct URL', () async {
       // Arrange
-      final endpoint =
-          'https://api.openweathermap.org/data/2.5/weather?q=$tCity&units=metric&appid=$kAPIKey';
+      final endpoint = 'https://api.openweathermap.org/data/2.5/weather?q=$tCity&units=metric&appid=$kAPIKey';
 
       succesfulResponse();
 
@@ -50,14 +50,10 @@ void main() {
       verify(httpClient.get(endpoint));
     });
 
-    test('should return WeatherInfoModel from response if status code is 200',
-        () async {
+    test('should return WeatherInfoModel from response if status code is 200', () async {
       // Arrange
-      final tWeatherInfoModel = WeatherInfoModel(
-          cityName: 'Fortaleza',
-          country: 'BR',
-          currentTemperature: 27.66,
-          weatherDescription: 'broken clouds');
+      final tWeatherInfoModel =
+          WeatherInfoModel(cityName: 'Fortaleza', country: 'BR', currentTemperature: 27.66, weatherDescription: 'broken clouds');
 
       succesfulResponse();
 

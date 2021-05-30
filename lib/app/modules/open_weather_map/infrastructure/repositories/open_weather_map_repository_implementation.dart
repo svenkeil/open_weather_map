@@ -10,23 +10,15 @@ import '../../domain/repositories/open_weather_map_repository.dart';
 import '../datasources/local_datasource.dart';
 import '../datasources/open_weather_map_remote_datasource.dart';
 
-part 'open_weather_map_repository_implementation.g.dart';
-
-@Injectable()
 class OpenWeatherMapRepositoryImplementation extends OpenWeatherMapRepository {
   final OpenWeatherMapRemoteDatasource remoteDatasource;
   final LocalDatasource localDatasource;
   final NetworkInfo networkInfo;
 
-  OpenWeatherMapRepositoryImplementation({
-    @required this.remoteDatasource,
-    @required this.localDatasource,
-    @required this.networkInfo,
-  });
+  OpenWeatherMapRepositoryImplementation(this.remoteDatasource, this.localDatasource, this.networkInfo);
 
   @override
-  Future<Either<Failure, WeatherInformation>> getWeatherInfoForCity(
-      String cityName) async {
+  Future<Either<Failure, WeatherInformation>> getWeatherInfoForCity(String cityName) async {
     if (await networkInfo.hasActiveNetwork) {
       try {
         final result = await remoteDatasource.getWeatherInfoForCity(cityName);

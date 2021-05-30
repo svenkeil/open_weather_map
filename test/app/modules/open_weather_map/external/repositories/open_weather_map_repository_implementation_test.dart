@@ -1,17 +1,17 @@
 import 'package:dartz/dartz.dart';
 import 'package:mockito/mockito.dart';
+import 'package:test/test.dart';
+
 import 'package:open_weather_map/app/core/error/exceptions.dart';
 import 'package:open_weather_map/app/core/error/failure.dart';
 import 'package:open_weather_map/app/core/network/network_info.dart';
 import 'package:open_weather_map/app/modules/open_weather_map/domain/repositories/open_weather_map_repository.dart';
-import 'package:open_weather_map/app/modules/open_weather_map/external/models/weather_info_model.dart';
 import 'package:open_weather_map/app/modules/open_weather_map/infrastructure/datasources/local_datasource.dart';
 import 'package:open_weather_map/app/modules/open_weather_map/infrastructure/datasources/open_weather_map_remote_datasource.dart';
+import 'package:open_weather_map/app/modules/open_weather_map/infrastructure/models/weather_info_model.dart';
 import 'package:open_weather_map/app/modules/open_weather_map/infrastructure/repositories/open_weather_map_repository_implementation.dart';
-import 'package:test/test.dart';
 
-class MockRemoteDatasource extends Mock
-    implements OpenWeatherMapRemoteDatasource {}
+class MockRemoteDatasource extends Mock implements OpenWeatherMapRemoteDatasource {}
 
 class MockLocalDatasource extends Mock implements LocalDatasource {}
 
@@ -28,11 +28,7 @@ void main() {
     mockNetworkInfo = MockNetworkInfo();
     mockLocalDatasource = MockLocalDatasource();
 
-    repository = OpenWeatherMapRepositoryImplementation(
-      remoteDatasource: mockRemoteDatasource,
-      localDatasource: mockLocalDatasource,
-      networkInfo: mockNetworkInfo,
-    );
+    repository = OpenWeatherMapRepositoryImplementation(mockRemoteDatasource, mockLocalDatasource, mockNetworkInfo);
   });
 
   group('getWeatherInfoForCity', () {
@@ -60,12 +56,9 @@ void main() {
         when(mockNetworkInfo.hasActiveNetwork).thenAnswer((_) async => true);
       });
 
-      test(
-          'should return remote data when the call to remote data source is successful',
-          () async {
+      test('should return remote data when the call to remote data source is successful', () async {
         // Arrange
-        when(mockRemoteDatasource.getWeatherInfoForCity(any))
-            .thenAnswer((_) async => tWeatherInfoModel);
+        when(mockRemoteDatasource.getWeatherInfoForCity(any)).thenAnswer((_) async => tWeatherInfoModel);
 
         // Act
         final result = await repository.getWeatherInfoForCity(tCity);
@@ -76,12 +69,9 @@ void main() {
         verifyNoMoreInteractions(mockRemoteDatasource);
       });
 
-      test(
-          'should cache data locally when the call to remote data source is successful',
-          () async {
+      test('should cache data locally when the call to remote data source is successful', () async {
         // Arrange
-        when(mockRemoteDatasource.getWeatherInfoForCity(any))
-            .thenAnswer((_) async => tWeatherInfoModel);
+        when(mockRemoteDatasource.getWeatherInfoForCity(any)).thenAnswer((_) async => tWeatherInfoModel);
 
         // Act
         final result = await repository.getWeatherInfoForCity(tCity);
@@ -92,12 +82,9 @@ void main() {
         expect(result, right(tWeatherInfoModel));
       });
 
-      test(
-          'should return server failure data when the call to remote data source is unsuccessful',
-          () async {
+      test('should return server failure data when the call to remote data source is unsuccessful', () async {
         // Arrange
-        when(mockRemoteDatasource.getWeatherInfoForCity(any))
-            .thenThrow(ServerException());
+        when(mockRemoteDatasource.getWeatherInfoForCity(any)).thenThrow(ServerException());
 
         // Act
         final result = await repository.getWeatherInfoForCity(tCity);
@@ -113,11 +100,9 @@ void main() {
         when(mockNetworkInfo.hasActiveNetwork).thenAnswer((_) async => false);
       });
 
-      test('should return last locally cached data when cached data is present',
-          () async {
+      test('should return last locally cached data when cached data is present', () async {
         // Arrange
-        when(mockLocalDatasource.getLastCachedWeatherInfo())
-            .thenAnswer((_) async => tWeatherInfoModel);
+        when(mockLocalDatasource.getLastCachedWeatherInfo()).thenAnswer((_) async => tWeatherInfoModel);
 
         // Act
         final result = await repository.getWeatherInfoForCity(tCity);
@@ -129,11 +114,9 @@ void main() {
         verifyNoMoreInteractions(mockLocalDatasource);
       });
 
-      test('should return CacheFailure when there is not cached data',
-          () async {
+      test('should return CacheFailure when there is not cached data', () async {
         // Arrange
-        when(mockLocalDatasource.getLastCachedWeatherInfo())
-            .thenThrow(CacheException());
+        when(mockLocalDatasource.getLastCachedWeatherInfo()).thenThrow(CacheException());
 
         // Act
         final result = await repository.getWeatherInfoForCity(tCity);

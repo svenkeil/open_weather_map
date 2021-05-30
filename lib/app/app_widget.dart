@@ -9,6 +9,7 @@ class AppWidget extends StatelessWidget {
     return MaterialApp(
       navigatorKey: Modular.navigatorKey,
       title: 'OpenWeatherMap',
+      debugShowCheckedModeBanner: false,
       theme: appTheme,
       initialRoute: '/',
       onGenerateRoute: Modular.generateRoute,

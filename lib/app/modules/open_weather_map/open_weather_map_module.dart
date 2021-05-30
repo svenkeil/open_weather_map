@@ -1,5 +1,6 @@
 import 'package:data_connection_checker/data_connection_checker.dart';
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:http/http.dart' as http;
 
 import '../../core/http_client/http_client_implementation.dart';
 import '../../core/network/network_info_implementation.dart';
@@ -14,13 +15,13 @@ class OpenWeatherMapModule extends ChildModule {
   @override
   List<Bind> get binds => [
         Bind((i) => DataConnectionChecker()),
-        $OpenWeatherMapController,
-        $GetWeatherInfoForCity,
-        $OpenWeatherMapRepositoryImplementation,
-        $OpenWeatherMapRemoteDatasourceImplementation,
-        $LocalDatasourceImplementation,
-        $NetworkInfoImplementation,
-        $HttpClientImplementation,
+        Bind((i) => OpenWeatherMapController(i())),
+        Bind((i) => GetWeatherInfoForCity(i())),
+        Bind((i) => OpenWeatherMapRepositoryImplementation(i(), i(), i())),
+        Bind((i) => OpenWeatherMapRemoteDatasourceImplementation(i())),
+        Bind((i) => LocalDatasourceImplementation()),
+        Bind((i) => NetworkInfoImplementation(i())),
+        Bind((i) => HttpClientImplementation(http.Client())),
       ];
 
   @override

@@ -1,13 +1,13 @@
 import 'package:dartz/dartz.dart';
 import 'package:mockito/mockito.dart';
+import 'package:test/test.dart';
+
 import 'package:open_weather_map/app/core/error/failure.dart';
 import 'package:open_weather_map/app/modules/open_weather_map/domain/entities/weather_information.dart';
 import 'package:open_weather_map/app/modules/open_weather_map/domain/repositories/open_weather_map_repository.dart';
 import 'package:open_weather_map/app/modules/open_weather_map/domain/usecases/get_weather_info_for_city.dart';
-import 'package:test/test.dart';
 
-class MockOpenWeatherMapRepository extends Mock
-    implements OpenWeatherMapRepository {}
+class MockOpenWeatherMapRepository extends Mock implements OpenWeatherMapRepository {}
 
 void main() {
   GetWeatherInfoForCity usecase;
@@ -26,12 +26,9 @@ void main() {
     weatherDescription: 'broken clouds',
   );
 
-  test(
-      'should get weather information for city from the repository if city name is valid',
-      () async {
+  test('should get weather information for city from the repository if city name is valid', () async {
     // Arrange
-    when(mockOpenWeatherMapRepository.getWeatherInfoForCity(any))
-        .thenAnswer((_) async => right(tWeatherInformation));
+    when(mockOpenWeatherMapRepository.getWeatherInfoForCity(any)).thenAnswer((_) async => right(tWeatherInformation));
 
     // Act
     final result = await usecase(Params(cityName: tCity));
@@ -44,8 +41,7 @@ void main() {
 
   test('should return CityNameFailure if city name is not valid', () async {
     // Arrange
-    when(mockOpenWeatherMapRepository.getWeatherInfoForCity(any))
-        .thenAnswer((_) async => left(CityNameFailure()));
+    when(mockOpenWeatherMapRepository.getWeatherInfoForCity(any)).thenAnswer((_) async => left(CityNameFailure()));
 
     // Act
     final result = await usecase(Params(cityName: null));

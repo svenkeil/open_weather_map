@@ -1,57 +1,33 @@
-import 'package:flutter_modular/flutter_modular.dart';
-import 'package:mobx/mobx.dart';
+import 'package:bloc/bloc.dart';
 
-import '../../../../core/util/extensions.dart';
 import '../../domain/usecases/get_weather_info_for_city.dart';
+import '../events/open_weather_map_events.dart';
+import '../states/open_weather_map_states.dart';
 
-part 'open_weather_map_controller.g.dart';
+class OpenWeatherMapController extends Bloc<OpenWeatherMapEvents, OpenWeatherMapStates> {
+  final GetWeatherInfoForCity usecase;
 
-@Injectable()
-class OpenWeatherMapController = _OpenWeatherMapControllerBase
-    with _$OpenWeatherMapController;
+  OpenWeatherMapController(this.usecase) : super(IdleState());
 
-abstract class _OpenWeatherMapControllerBase with Store {
-  final GetWeatherInfoForCity _usecase;
+  @override
+  Stream<OpenWeatherMapStates> mapEventToState(OpenWeatherMapEvents event) async* {
+    switch (event.runtimeType) {
+      case GetWeatherInfoForCityEvent:
+        yield* _mapGetWeatherInfoForCityToState(event);
+        break;
+      default:
+        yield IdleState();
+    }
+  }
 
-  _OpenWeatherMapControllerBase(GetWeatherInfoForCity usecase)
-      : _usecase = usecase;
+  Stream<OpenWeatherMapStates> _mapGetWeatherInfoForCityToState(GetWeatherInfoForCityEvent event) async* {
+    yield FetchingDataState();
 
-  @observable
-  double currentTemperature;
+    final result = await usecase(Params(cityName: event.cityName));
 
-  @observable
-  String city;
-
-  @observable
-  String country;
-
-  @observable
-  String weatherDescription;
-
-  @observable
-  bool hasError = false;
-
-  @computed
-  bool get hasData =>
-      currentTemperature != null &&
-      city != null &&
-      country != null &&
-      weatherDescription != null;
-
-  @action
-  Future<void> getWeatherInfoForCity(String cityName) async {
-    final result = await _usecase(Params(cityName: cityName));
-
-    result.fold(
-      (l) => hasError = true,
-      (r) {
-        country = r.country;
-        city = r.cityName;
-        currentTemperature = r.currentTemperature;
-        weatherDescription = r.weatherDescription.capitalize();
-
-        hasError = false;
-      },
+    yield result.fold(
+      (failure) => UnableToFetchDataState(),
+      (success) => SuccessfullyLoadedDataState(weatherInformation: success),
     );
   }
 }

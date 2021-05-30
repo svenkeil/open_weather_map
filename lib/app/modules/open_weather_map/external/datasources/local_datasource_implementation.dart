@@ -1,15 +1,11 @@
 import 'dart:convert';
 
-import 'package:flutter_modular/flutter_modular.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../../core/error/exceptions.dart';
 import '../../infrastructure/datasources/local_datasource.dart';
-import '../models/weather_info_model.dart';
+import '../../infrastructure/models/weather_info_model.dart';
 
-part 'local_datasource_implementation.g.dart';
-
-@Injectable()
 class LocalDatasourceImplementation implements LocalDatasource {
   SharedPreferences sharedPreferences;
 
@@ -17,8 +13,7 @@ class LocalDatasourceImplementation implements LocalDatasource {
     _getSharedPreferencesInstance();
   }
 
-  Future<void> _getSharedPreferencesInstance() async =>
-      sharedPreferences = await SharedPreferences.getInstance();
+  Future<void> _getSharedPreferencesInstance() async => sharedPreferences = await SharedPreferences.getInstance();
 
   @override
   Future<WeatherInfoModel> getLastCachedWeatherInfo() {
@@ -33,7 +28,6 @@ class LocalDatasourceImplementation implements LocalDatasource {
 
   @override
   Future<void> cacheWeatherInfo(WeatherInfoModel weatherInfo) {
-    return sharedPreferences.setString(
-        kCachedWeatherInfo, jsonEncode(weatherInfo.toJSON()));
+    return sharedPreferences.setString(kCachedWeatherInfo, jsonEncode(weatherInfo.toJSON()));
   }
 }
