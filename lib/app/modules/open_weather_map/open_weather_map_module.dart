@@ -8,14 +8,14 @@ import 'domain/usecases/get_weather_info_for_city.dart';
 import 'external/datasources/local_datasource_implementation.dart';
 import 'external/datasources/open_weather_map_remote_datasource_implementation.dart';
 import 'infrastructure/repositories/open_weather_map_repository_implementation.dart';
-import 'presentation/controllers/open_weather_map_controller.dart';
+import 'presentation/bloc/open_weather_map_bloc.dart';
 import 'presentation/pages/home_page.dart';
 
 class OpenWeatherMapModule extends ChildModule {
   @override
   List<Bind> get binds => [
         Bind((i) => DataConnectionChecker()),
-        Bind((i) => OpenWeatherMapController(i())),
+        Bind((i) => OpenWeatherMapBloc(i())),
         Bind((i) => GetWeatherInfoForCity(i())),
         Bind((i) => OpenWeatherMapRepositoryImplementation(i(), i(), i())),
         Bind((i) => OpenWeatherMapRemoteDatasourceImplementation(i())),
