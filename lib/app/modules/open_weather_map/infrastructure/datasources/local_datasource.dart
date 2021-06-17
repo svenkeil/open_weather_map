@@ -1,4 +1,4 @@
-import 'package:open_weather_map/app/modules/open_weather_map/infrastructure/models/weather_info_model.dart';
+import '../models/weather_info_model.dart';
 
 abstract class LocalDatasource {
   Future<WeatherInfoModel> getLastCachedWeatherInfo();
