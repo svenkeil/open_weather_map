@@ -1,24 +1,34 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 
-import '../controllers/open_weather_map_controller.dart';
+import '../bloc/open_weather_map_bloc.dart';
 import '../events/open_weather_map_events.dart';
 import '../states/open_weather_map_states.dart';
 import '../widgets/empty_weather_information.dart';
 import '../widgets/search_field.dart';
 import '../widgets/weather_information.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
+  @override
+  _HomePageState createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  final openWeatherMapBloc = Modular.get<OpenWeatherMapBloc>();
+
+  @override
+  void dispose() {
+    openWeatherMapBloc.close();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
-    // ignore: close_sinks
-    final _openWeatherMapController = Modular.get<OpenWeatherMapController>();
-
     return StreamBuilder(
-      stream: _openWeatherMapController,
+      stream: openWeatherMapBloc,
       initialData: IdleState,
       builder: (context, snapshot) {
-        final state = _openWeatherMapController.state;
+        final state = openWeatherMapBloc.state;
 
         return Listener(
           onPointerDown: (_) {
@@ -43,7 +53,7 @@ class HomePage extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     SearchField(
-                      onSearch: (cityName) => _openWeatherMapController.add(GetWeatherInfoForCityEvent(cityName: cityName)),
+                      onSearch: (cityName) => openWeatherMapBloc.add(GetWeatherInfoForCityEvent(cityName: cityName)),
                     ),
                     if (state is SuccessfullyLoadedDataState) ...[
                       WeatherInformationWidget(weatherInformation: state.weatherInformation)
